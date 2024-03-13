@@ -29,6 +29,7 @@ while True:
             flag = 0
         else:
             flag += 1
+            time.sleep(120)
             continue
         port = 30000 + len(gpus)
         devices = ','.join(gpus)
@@ -41,4 +42,4 @@ while True:
             pass
     else:
         flag = 0
-    time.sleep(300)
+    time.sleep(120)
