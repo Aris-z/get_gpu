@@ -4,6 +4,9 @@ from torch.utils.data import Dataset, DataLoader
 from torch.utils.data.distributed import DistributedSampler
 import os
 import time
+from transformers import LlamaForCausalLM, LlamaTokenizer
+import setproctitle
+setproctitle.setproctitle("~/anaconda3/envs/LLM/bin/python")
 
 time_start = time.time()
 torch.distributed.init_process_group(backend="nccl")
@@ -36,6 +39,7 @@ dataset = randomdata(size)
 
 data_load = DataLoader(dataset=dataset, batch_size=8, sampler=DistributedSampler(dataset))
 
+_ = torch.randn((16, 1024, 1024, 1024), device=device)
 model = get_gpu(size).to(device)
 model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[local_rank], output_device=local_rank)
 for data in data_load:
